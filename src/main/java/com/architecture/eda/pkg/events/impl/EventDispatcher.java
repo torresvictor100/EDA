@@ -16,10 +16,11 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+@Component
 public class EventDispatcher implements EventDispatcherInterface{
         private final Map<String, List<EventHandlerInterface>> handlers = new ConcurrentHashMap<>();
 
-    @Autowired
+    @Override
     public void dispatch(EventInterface event) {
         List<EventHandlerInterface> eventHandlers = handlers.get(event.getName());
         if (eventHandlers != null) {
@@ -50,7 +51,7 @@ public class EventDispatcher implements EventDispatcherInterface{
         }
     }
 
-    @Autowired
+    @Override
     public synchronized void register(String eventName, EventHandlerInterface handler) {
         List<EventHandlerInterface> eventHandlers = handlers.computeIfAbsent(eventName, k -> new ArrayList<>());
 
@@ -61,13 +62,13 @@ public class EventDispatcher implements EventDispatcherInterface{
         eventHandlers.add(handler);
     }
 
-    @Autowired
+    @Override
     public synchronized boolean has(String eventName, EventHandlerInterface handler) {
         List<EventHandlerInterface> eventHandlers = handlers.get(eventName);
         return eventHandlers != null && eventHandlers.contains(handler);
     }
 
-    @Autowired
+    @Override
     public synchronized void remove(String eventName, EventHandlerInterface handler) {
         List<EventHandlerInterface> eventHandlers = handlers.get(eventName);
         if (eventHandlers != null) {
@@ -75,7 +76,7 @@ public class EventDispatcher implements EventDispatcherInterface{
         }
     }
 
-    @Autowired
+    @Override
     public synchronized void clear() {
         handlers.clear();
     }
