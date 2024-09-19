@@ -1,4 +1,4 @@
-package com.architecture.eda.pkg.events;
+package com.architecture.eda.share.events;
 
 import java.time.LocalDateTime;
 

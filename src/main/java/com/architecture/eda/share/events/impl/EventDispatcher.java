@@ -1,11 +1,10 @@
-package com.architecture.eda.pkg.events.impl;
+package com.architecture.eda.share.events.impl;
 
-import com.architecture.eda.pkg.events.EventDispatcherInterface;
-import com.architecture.eda.pkg.events.EventHandlerInterface;
+import com.architecture.eda.share.events.EventDispatcherInterface;
+import com.architecture.eda.share.events.EventHandlerInterface;
 
-import com.architecture.eda.pkg.events.EventInterface;
-import com.architecture.eda.pkg.events.exceptions.HandleAlreadyRegistered;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.architecture.eda.share.events.EventInterface;
+import com.architecture.eda.share.events.exceptions.HandleAlreadyRegistered;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

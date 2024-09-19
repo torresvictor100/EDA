@@ -1,7 +1,7 @@
-package com.architecture.eda.pkg.events;
+package com.architecture.eda.share.events;
 
-import com.architecture.eda.pkg.events.exceptions.HandleAlreadyRegistered;
-import com.architecture.eda.pkg.events.impl.EventDispatcher;
+import com.architecture.eda.share.events.exceptions.HandleAlreadyRegistered;
+import com.architecture.eda.share.events.impl.EventDispatcher;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
