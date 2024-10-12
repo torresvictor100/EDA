@@ -8,8 +8,7 @@ import com.architecture.eda.internal.usecase.create_transation.dtos.CreateTransa
 import com.architecture.eda.internal.usecase.create_transation.dtos.CreateTransationOutputDTO;
 import com.architecture.eda.internal.usecase.create_transation.factory.CreateTransationFactory;
 import com.architecture.eda.share.events.EventDispatcherInterface;
-import com.architecture.eda.share.events.EventInterface;
-import com.architecture.eda.share.events.impl.EventDispatcher;
+import com.architecture.eda.share.events.impl.EventTransactionCreated;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,18 +21,27 @@ public class CreateTransationUseCase {
     @Autowired
     private EventDispatcherInterface eventDispatcher;
 
-    public CreateTransationUseCase(AccountGateway accountGateway, TransactionGateway transactionGateway) {
+    public CreateTransationUseCase(AccountGateway accountGateway, TransactionGateway transactionGateway
+            , EventDispatcherInterface eventDispatcher) {
         this.accountGateway = accountGateway;
         this.transactionGateway = transactionGateway;
+        this.eventDispatcher = eventDispatcher;
     }
 
-    public CreateTransationOutputDTO executed(CreateTransactionInputDTO transactionInput){
+    public CreateTransationOutputDTO executed(CreateTransactionInputDTO transactionInput) throws Exception {
         Account accountIDFrom = accountGateway.get(transactionInput.accountUuidFrom());
         Account accountIDTo =accountGateway.get(transactionInput.accountUuidTo());
         Transaction transaction = new Transaction().newTransaction(accountIDFrom
                 , accountIDTo, transactionInput.amouth());
 
         transaction =  transactionGateway.create(transaction);
-        return CreateTransationFactory.createTransationOutput(transaction);
+
+        CreateTransationOutputDTO createTransationOutput = CreateTransationFactory.createTransationOutput(transaction);
+
+        EventTransactionCreated eventTransactionCreated = new EventTransactionCreated();
+        eventTransactionCreated.setPayload(createTransationOutput);
+        eventDispatcher.dispatch(eventTransactionCreated);
+
+        return createTransationOutput;
     }
 }

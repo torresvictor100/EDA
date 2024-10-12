@@ -8,10 +8,14 @@ import com.architecture.eda.internal.entity.Transaction;
 import com.architecture.eda.internal.usecase.create_transation.CreateTransationUseCase;
 import com.architecture.eda.internal.usecase.create_transation.dtos.CreateTransactionInputDTO;
 import com.architecture.eda.internal.usecase.create_transation.dtos.CreateTransationOutputDTO;
+import com.architecture.eda.share.events.EventDispatcherInterface;
+import com.architecture.eda.share.events.impl.EventTransactionCreated;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -31,9 +35,14 @@ public class CreateTransactionUseCaseTest {
     private TransactionGateway transactionGateway;
     @Mock
     private AccountGateway accountGateway;
+    @Mock
+    private EventDispatcherInterface eventDispatcher;
+    @InjectMocks
+    private CreateTransationUseCase createTransactionUseCase;
 
     @Test
-    public void newTransaction() {
+    public void newTransaction() throws Exception {
+        MockitoAnnotations.initMocks(this);
         String nameAccountFrom = "nameAccountFrom";
         String emailAccountFrom  = "nameAccountFrom@email.com";
 
@@ -59,7 +68,7 @@ public class CreateTransactionUseCaseTest {
         when(accountGateway.get(accountTo.getUuid())).thenReturn(accountTo);
 
         CreateTransationUseCase createCLientUseCase = new CreateTransationUseCase(accountGateway,
-                transactionGateway);
+                transactionGateway, eventDispatcher);
 
         CreateTransationOutputDTO transactionCreate = createCLientUseCase.executed(
                 new CreateTransactionInputDTO(accountFrom.getId()
@@ -68,8 +77,9 @@ public class CreateTransactionUseCaseTest {
         Assertions.assertNotNull(transactionCreate);
         Assertions.assertEquals(transaction.getUuid(),transactionCreate.transationUuid());
 
-
         verify(transactionGateway, times(1)).create(any());
         verify(accountGateway, times(2)).get(any());
+
+        verify(eventDispatcher, times(1)).dispatch(any(EventTransactionCreated.class));
     }
 }
