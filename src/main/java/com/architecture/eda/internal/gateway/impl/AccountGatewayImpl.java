@@ -28,4 +28,9 @@ public class AccountGatewayImpl implements AccountGateway {
         AccountModel accountModel = accountDB.save(createAccountModel(account));
         return createAccount(accountModel);
     }
+    @Override
+    public Account update(Account account) {
+        AccountModel accountModel = accountDB.save(createAccountModel(account));
+        return createAccount(accountModel);
+    }
 }

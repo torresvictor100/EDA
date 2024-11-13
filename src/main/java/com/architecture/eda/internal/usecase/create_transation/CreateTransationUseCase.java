@@ -30,11 +30,13 @@ public class CreateTransationUseCase {
 
     public CreateTransationOutputDTO executed(CreateTransactionInputDTO transactionInput) throws Exception {
         Account accountIDFrom = accountGateway.get(transactionInput.accountUuidFrom());
-        Account accountIDTo =accountGateway.get(transactionInput.accountUuidTo());
+        Account accountIDTo = accountGateway.get(transactionInput.accountUuidTo());
         Transaction transaction = new Transaction().newTransaction(accountIDFrom
                 , accountIDTo, transactionInput.amouth());
 
-        transaction =  transactionGateway.create(transaction);
+        transaction = transactionGateway.create(transaction);
+        accountGateway.update(accountIDFrom);
+        accountGateway.update(accountIDTo);
 
         CreateTransationOutputDTO createTransationOutput = CreateTransationFactory.createTransationOutput(transaction);
 
