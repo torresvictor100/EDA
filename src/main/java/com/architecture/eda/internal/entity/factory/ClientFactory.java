@@ -6,7 +6,7 @@ import com.architecture.eda.internal.entity.Client;
 public class ClientFactory {
     public static Client createClient(ClientModel clientModel){
         Client client = new Client();
-        client.setId(client.getId());
+        client.setId(clientModel.getId());
         client.setUuid(clientModel.getUuid());
         client.setName(clientModel.getName());
         client.setEmail(clientModel.getEmail());
@@ -17,6 +17,7 @@ public class ClientFactory {
 
     public static ClientModel createClientModel(Client client){
         ClientModel clientModel = new ClientModel();
+        clientModel.setId(client.getId());
         clientModel.setUuid(client.getUuid());
         clientModel.setName(client.getName());
         clientModel.setEmail(client.getEmail());

@@ -15,6 +15,7 @@ import static com.architecture.eda.internal.entity.factory.AccountFactory.create
 public class AccountGatewayImpl implements AccountGateway {
     @Autowired
     private AccountDB accountDB;
+
     @Override
     public Account get(String uuid) {
         AccountModel accountModel = accountDB.findByUuid(uuid).orElseThrow(()
