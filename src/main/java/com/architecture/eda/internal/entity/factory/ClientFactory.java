@@ -17,11 +17,11 @@ public class ClientFactory {
 
     public static ClientModel createClientModel(Client client){
         ClientModel clientModel = new ClientModel();
-        clientModel.setUuid(clientModel.getUuid());
-        clientModel.setName(clientModel.getName());
-        clientModel.setEmail(clientModel.getEmail());
-        clientModel.setCreateAt(clientModel.getCreateAt());
-        clientModel.setUpdateAt(clientModel.getUpdateAt());
+        clientModel.setUuid(client.getUuid());
+        clientModel.setName(client.getName());
+        clientModel.setEmail(client.getEmail());
+        clientModel.setCreateAt(client.getCreateAt());
+        clientModel.setUpdateAt(client.getUpdateAt());
         return clientModel;
     }
 }

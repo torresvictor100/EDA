@@ -23,8 +23,8 @@ class EventDispatcherTest {
     void setUp() {
         eventDispatcher = new EventDispatcher();
         event = new EventTest("test", "payload");
-        handler = mock(EventHandlerInterfaceTest.class);
-        handler2 = mock(EventHandlerInterfaceTest.class);
+        handler = mock(EventHandlerTest.class);
+        handler2 = mock(EventHandlerTest.class);
     }
 
     @Test

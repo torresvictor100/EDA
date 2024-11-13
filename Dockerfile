@@ -5,10 +5,8 @@ RUN apt update \
 
 WORKDIR /app
 
-# Copie o JAR para dentro do contêiner (use um caminho relativo)
-
 COPY ./build/libs/com.architecture.eda-0.0.1-SNAPSHOT.jar /app/app.jar
 
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
+CMD ["java", "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005", "-jar", "app.jar"]

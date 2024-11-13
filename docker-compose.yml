@@ -17,13 +17,14 @@ services:
       - app-network
     restart: always
 
-  app:
+  app-eda:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: spring-app
+    container_name: spring-app-eda
     ports:
       - 8080:8080
+      - 5005:5005
     networks:
       - app-network
     depends_on:
