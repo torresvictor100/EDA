@@ -22,6 +22,7 @@ public class AccountFactory {
 
     public static AccountModel createAccountModel(Account account){
         AccountModel accountModel = new AccountModel();
+        accountModel.setId(account.getId());
         accountModel.setUuid(account.getUuid());
         accountModel.setBalance(account.getBalance());
         accountModel.setClient(createClientModel(account.getClient()));
